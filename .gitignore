@@ -1,0 +1,43 @@
+node_modules/
+dist/
+.npm-cache/
+*.tsbuildinfo
+*.log
+.env
+.env.*
+.DS_Store
+Thumbs.db
+output/
+
+# Local caches and checks
+.cache/
+.vite/
+coverage/
+test-results/
+playwright-report/
+
+# Archives, backups and temporary files
+*.zip
+*.7z
+*.rar
+*.tar
+*.gz
+*.bak
+*.tmp
+*.temp
+*~
+*.ship.png
+
+# Personal tooling, credentials and local configuration
+.vscode/
+.idea/
+.codex/
+.agents/
+.aws/
+.ssh/
+.npmrc
+.yarnrc*
+*.pem
+*.key
+*.p12
+*.pfx

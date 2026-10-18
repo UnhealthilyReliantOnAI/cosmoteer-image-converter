@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Construction d'armures Cosmoteer",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "pieces"
+  ],
+  "properties": {
+    "format": {
+      "const": "cosmoteer-armor-construction-v1"
+    },
+    "coordinateSpace": {
+      "enum": [
+        "local",
+        "native"
+      ],
+      "default": "local"
+    },
+    "width": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 120
+    },
+    "height": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 120
+    },
+    "translation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "x",
+        "y"
+      ],
+      "properties": {
+        "x": {
+          "$ref": "#/$defs/int32"
+        },
+        "y": {
+          "$ref": "#/$defs/int32"
+        }
+      }
+    },
+    "pieces": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/piece"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "coordinateSpace"
+        ],
+        "properties": {
+          "coordinateSpace": {
+            "const": "native"
+          }
+        }
+      },
+      "then": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "width"
+              ]
+            },
+            {
+              "required": [
+                "height"
+              ]
+            },
+            {
+              "required": [
+                "translation"
+              ]
+            }
+          ]
+        }
+      },
+      "else": {
+        "required": [
+          "width",
+          "height"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "int32": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "piece": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "rotation",
+        "position"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "type": {
+          "enum": [
+            "square_1x1",
+            "wedge_1x1",
+            "wedge_1x2",
+            "wedge_1x3",
+            "small_triangle"
+          ]
+        },
+        "rotation": {
+          "type": "integer",
+          "enum": [
+            0,
+            90,
+            180,
+            270
+          ]
+        },
+        "mirrored": {
+          "type": "boolean",
+          "default": false
+        },
+        "position": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "x",
+            "y"
+          ],
+          "properties": {
+            "x": {
+              "$ref": "#/$defs/int32"
+            },
+            "y": {
+              "$ref": "#/$defs/int32"
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "square_1x1",
+                  "wedge_1x1",
+                  "small_triangle"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "mirrored": {
+                "const": false
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
